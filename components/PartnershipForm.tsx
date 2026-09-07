@@ -168,13 +168,25 @@ export default function PartnershipForm() {
 
         <Field id="amount" label="Amount you have in mind" hint="Optional — you can decide later.">
           <div className="flex gap-2">
-            <select name="currency" aria-label="Currency" className={`${FIELD} w-28 shrink-0`} defaultValue="USD">
+            <select
+              name="currency"
+              aria-label="Currency"
+              defaultValue="USD"
+              className="w-24 shrink-0 rounded-xl border border-navy/15 bg-white px-3 py-3.5 text-[15px] text-ink transition focus:border-blue focus:outline-none focus:ring-4 focus:ring-blue/12"
+            >
               <option>USD</option>
               <option>NGN</option>
               <option>GBP</option>
               <option>EUR</option>
+              <option>SSP</option>
             </select>
-            <input id="amount" name="amount" inputMode="decimal" className={FIELD} placeholder="50" />
+            <input
+              id="amount"
+              name="amount"
+              inputMode="decimal"
+              placeholder="e.g. 50"
+              className={`${FIELD} min-w-0 flex-1`}
+            />
           </div>
         </Field>
 
