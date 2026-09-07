@@ -7,7 +7,7 @@ export const SITE = {
   whatsapp: "+211910003377",
   email: "partnership@hearttv.org",
   partnerLineHours: "Mon – Sat, 8:00am – 8:00pm (WAT)",
-  address: "Peter AD Ministries, Lagos, Nigeria",
+  address: "Stone International Church, Gudele Block 4, Juba, South Sudan",
   socials: [
     { label: "YouTube", href: "#" },
     { label: "Facebook", href: "#" },
