@@ -1,0 +1,40 @@
+{
+  "hero": {
+    "videoSrc": "",
+    "posterSrc": "/images/children-gathering-field.jpg",
+    "headline": "Give once. Reshape a life. Then watch it happen.",
+    "subhead": "Heart TV partners fund scholarships, meet basic needs and carry the message of hope to souls, nations and the world."
+  },
+  "gallery": [
+    {
+      "src": "/images/volunteers-carrying-food-sacks.jpg",
+      "caption": "Food, carried in by hand",
+      "body": "Volunteers bring maize flour, rice and beans into the hall — one sack at a time, one household at a time."
+    },
+    {
+      "src": "/images/families-seated-with-parcels.jpg",
+      "caption": "Every seat, a family fed",
+      "body": "Parcels are set beside each family before the service ends, so nobody has to queue, ask twice or go home empty."
+    },
+    {
+      "src": "/images/families-with-maize-flour.jpg",
+      "caption": "Parents who can feed their children again",
+      "body": "Fifty-kilo bags of maize flour and cash support, handed to young families with babies still in arms."
+    },
+    {
+      "src": "/images/mother-five-children.jpg",
+      "caption": "One mother, five children, one month secured",
+      "body": "Beans, flour and a cash gift — enough to take the pressure off a household carrying more than it can hold."
+    },
+    {
+      "src": "/images/mothers-receiving-supplies.jpg",
+      "caption": "Flour, rice and cooking oil",
+      "body": "A standard relief package: staples that last, chosen because they stretch furthest in a family kitchen."
+    },
+    {
+      "src": "/images/father-and-child-support.jpg",
+      "caption": "Cash placed directly in their hands",
+      "body": "Some needs are not food. Rent, medicine and school fees are met with cash given straight to the family."
+    }
+  ]
+}

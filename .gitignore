@@ -1,0 +1,12 @@
+node_modules
+.next
+out
+.env*.local
+.DS_Store
+*.tsbuildinfo
+next-env.d.ts
+
+# Uploaded media + submissions are runtime data, not source
+public/uploads/*
+!public/uploads/.gitkeep
+content/submissions.json

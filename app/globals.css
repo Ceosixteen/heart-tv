@@ -1,0 +1,130 @@
+@import url("https://fonts.googleapis.com/css2?family=Fraunces:opsz,wght@9..144,400;9..144,600;9..144,700;9..144,900&family=Inter:wght@400;500;600;700&display=swap");
+@import "tailwindcss";
+
+@theme {
+  --font-display: "Fraunces", "Iowan Old Style", Georgia, serif;
+  --font-sans: "Inter", ui-sans-serif, system-ui, -apple-system, "Segoe UI", sans-serif;
+
+  /* Heart TV palette — deep broadcast blue, bright azure, gold, white */
+  --color-ink: #05063a;
+  --color-navy: #211ca8;
+  --color-navy-deep: #12105e;
+  --color-blue: #1057d1;
+  --color-azure: #24aaf5;
+  --color-gold: #f0b429;
+  --color-gold-deep: #c98d10;
+  --color-cloud: #f7f9ff;
+  --color-mist: #e7eefb;
+  --color-muted: #67718f;
+
+  --radius-card: 1.25rem;
+}
+
+
+:root {
+  color-scheme: light;
+  --header-h: 76px;
+}
+
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: var(--header-h);
+}
+
+body {
+  background: var(--color-cloud);
+  color: var(--color-ink);
+  font-family: var(--font-sans);
+  -webkit-font-smoothing: antialiased;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+/* Focus ring that survives both the cream and plum surfaces */
+:where(a, button, input, select, textarea, [tabindex]):focus-visible {
+  outline: 3px solid var(--color-azure);
+  outline-offset: 2px;
+  /* Dark halo so the ring reads on white sections as well as navy ones. */
+  box-shadow: 0 0 0 5px rgb(5 6 58 / 0.4);
+  border-radius: 6px;
+}
+
+.display {
+  font-family: var(--font-display);
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  line-height: 1.05;
+}
+
+.eyebrow {
+  font-size: 0.75rem;
+  font-weight: 600;
+  letter-spacing: 0.18em;
+  text-transform: uppercase;
+}
+
+/* Section reveal — progressive enhancement, visible by default if JS is off */
+.reveal {
+  opacity: 0;
+  transform: translateY(18px);
+  transition: opacity 0.7s ease, transform 0.7s ease;
+}
+.reveal.is-visible,
+.no-js .reveal {
+  opacity: 1;
+  transform: none;
+}
+
+.grain {
+  background-image: radial-gradient(circle at 1px 1px, rgb(255 255 255 / 0.09) 1px, transparent 0);
+  background-size: 22px 22px;
+}
+
+/* Same dot texture, tuned for light grounds — ink instead of white, and
+   fainter, since it sits behind body copy rather than a navy wash. */
+.dot-grid {
+  background-image: radial-gradient(circle at 1px 1px, rgb(18 16 94 / 0.07) 1px, transparent 0);
+  background-size: 26px 26px;
+}
+
+/* Broadcast scanlines — a nod to the TV signal, kept faint enough to read
+   as grain rather than an overlay. */
+.scanlines {
+  background-image: repeating-linear-gradient(
+    to bottom,
+    rgb(255 255 255 / 0.05) 0px,
+    rgb(255 255 255 / 0.05) 1px,
+    transparent 1px,
+    transparent 3px
+  );
+}
+
+/* Ambient light, drifting slowly behind dark sections. Only `transform`
+   animates — the blur is static — so this stays cheap on the compositor. */
+.orb {
+  position: absolute;
+  border-radius: 9999px;
+  filter: blur(64px);
+  will-change: transform;
+}
+@keyframes drift-a {
+  0%, 100% { transform: translate3d(-4%, -3%, 0) scale(1); }
+  50%      { transform: translate3d(5%, 6%, 0) scale(1.15); }
+}
+@keyframes drift-b {
+  0%, 100% { transform: translate3d(4%, 4%, 0) scale(1.08); }
+  50%      { transform: translate3d(-6%, -5%, 0) scale(0.92); }
+}
+@keyframes drift-c {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1); }
+  50%      { transform: translate3d(-3%, 4%, 0) scale(1.2); }
+}
+.orb-a { animation: drift-a 28s ease-in-out infinite; }
+.orb-b { animation: drift-b 34s ease-in-out infinite; }
+.orb-c { animation: drift-c 40s ease-in-out infinite; }
