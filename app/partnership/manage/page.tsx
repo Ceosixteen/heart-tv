@@ -34,6 +34,15 @@ export default async function ManagePage() {
         is a stopgap for local and staging use only.
       </div>
 
+      <div className="mt-6 flex gap-3">
+        <Link
+          href="/partnership/manage/submissions"
+          className="inline-flex items-center gap-2 rounded-full bg-navy px-5 py-2.5 text-sm font-semibold text-white transition hover:bg-blue"
+        >
+          View partner submissions →
+        </Link>
+      </div>
+
       <div className="mt-10">
         <StudioForm content={content} />
       </div>

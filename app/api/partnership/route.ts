@@ -4,10 +4,37 @@ import { NextResponse } from "next/server";
 
 const STORE = path.join(process.cwd(), "content", "submissions.json");
 
+const FIREBASE_READY =
+  !!process.env.FIREBASE_PROJECT_ID &&
+  !!process.env.FIREBASE_CLIENT_EMAIL &&
+  !!process.env.FIREBASE_PRIVATE_KEY;
+
 type Submission = Record<string, unknown> & { id: string; receivedAt: string };
 
 function clean(value: unknown, max = 2000) {
   return typeof value === "string" ? value.trim().slice(0, max) : "";
+}
+
+async function saveToFirestore(submission: Submission) {
+  const { db, Timestamp } = await import("@/lib/firebase");
+  await db()
+    .collection("partners")
+    .doc(submission.id)
+    .set({
+      ...submission,
+      receivedAt: Timestamp.fromDate(new Date(submission.receivedAt)),
+    });
+}
+
+async function saveToFile(submission: Submission) {
+  let existing: Submission[] = [];
+  try {
+    existing = JSON.parse(await fs.readFile(STORE, "utf8")) as Submission[];
+  } catch {
+    existing = [];
+  }
+  existing.push(submission);
+  await fs.writeFile(STORE, `${JSON.stringify(existing, null, 2)}\n`, "utf8");
 }
 
 export async function POST(request: Request) {
@@ -23,12 +50,14 @@ export async function POST(request: Request) {
   const phone = clean(body.phone, 40);
   const country = clean(body.country, 80);
 
-  if (!fullName) return NextResponse.json({ error: "Please tell us your name." }, { status: 400 });
+  if (!fullName)
+    return NextResponse.json({ error: "Please tell us your name." }, { status: 400 });
   if (!/^[^@\s]+@[^@\s]+\.[^@\s]+$/.test(email))
     return NextResponse.json({ error: "That email address does not look right." }, { status: 400 });
   if (phone.replace(/\D/g, "").length < 7)
     return NextResponse.json({ error: "Please give us a reachable phone number." }, { status: 400 });
-  if (!country) return NextResponse.json({ error: "Please tell us your country." }, { status: 400 });
+  if (!country)
+    return NextResponse.json({ error: "Please tell us your country." }, { status: 400 });
   if (!body.consent)
     return NextResponse.json({ error: "We need your permission to contact you." }, { status: 400 });
 
@@ -48,17 +77,12 @@ export async function POST(request: Request) {
     newsletter: Boolean(body.newsletter),
   };
 
-  // Local JSON store. Swap this block for the ministry CRM / mailing list
-  // once credentials are available — the shape above is what it should receive.
   try {
-    let existing: Submission[] = [];
-    try {
-      existing = JSON.parse(await fs.readFile(STORE, "utf8")) as Submission[];
-    } catch {
-      existing = [];
+    if (FIREBASE_READY) {
+      await saveToFirestore(submission);
+    } else {
+      await saveToFile(submission);
     }
-    existing.push(submission);
-    await fs.writeFile(STORE, `${JSON.stringify(existing, null, 2)}\n`, "utf8");
   } catch (err) {
     console.error("Could not persist partnership submission", err);
     return NextResponse.json(
