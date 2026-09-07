@@ -9,9 +9,9 @@ export const SITE = {
   partnerLineHours: "Mon – Sat, 8:00am – 8:00pm (WAT)",
   address: "Stone International Church, Gudele Block 4, Juba, South Sudan",
   socials: [
-    { label: "YouTube", href: "#" },
-    { label: "Facebook", href: "#" },
-    { label: "Instagram", href: "#" },
+    { label: "YouTube", href: "https://www.youtube.com/@peteradministries" },
+    { label: "Facebook", href: "https://www.facebook.com/peteradministries" },
+    { label: "Instagram", href: "https://www.instagram.com/peteradministries" },
     { label: "X", href: "#" },
     { label: "TikTok", href: "#" },
     { label: "Telegram", href: "#" },
