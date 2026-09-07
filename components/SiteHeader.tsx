@@ -10,7 +10,7 @@ import { useLiveStatus } from "@/contexts/LiveContext";
 // Routes that open with a full-bleed dark hero, which the header can sit on
 // transparently. Everywhere else it needs its own ground, or the white lockup
 // and nav links disappear into a light page.
-const DARK_HERO_ROUTES = ["/", "/partnership", "/live"];
+const DARK_HERO_ROUTES = ["/", "/partnership", "/live", "/about"];
 
 export default function SiteHeader() {
   const pathname = usePathname();
