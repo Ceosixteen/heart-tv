@@ -1,14 +1,15 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import Logo from "@/components/Logo";
+import SubmissionsDashboard from "./SubmissionsDashboard";
 
 export const dynamic = "force-dynamic";
 export const metadata: Metadata = {
-  title: "Partner submissions",
+  title: "Admin dashboard — Heart TV",
   robots: { index: false, follow: false },
 };
 
-type Partner = {
+export type Partner = {
   id: string;
   receivedAt: string;
   fullName: string;
@@ -20,7 +21,8 @@ type Partner = {
   currency: string;
   amount: string;
   newsletter: boolean;
-  prayer?: string;
+  prayer: string;
+  heardFrom: string;
 };
 
 async function getPartners(): Promise<Partner[]> {
@@ -35,7 +37,7 @@ async function getPartners(): Promise<Partner[]> {
   const snap = await db()
     .collection("partners")
     .orderBy("receivedAt", "desc")
-    .limit(200)
+    .limit(500)
     .get();
 
   return snap.docs.map((d) => {
@@ -43,9 +45,7 @@ async function getPartners(): Promise<Partner[]> {
     return {
       id: data.id ?? d.id,
       receivedAt:
-        data.receivedAt?.toDate?.()?.toISOString?.() ??
-        data.receivedAt ??
-        "",
+        data.receivedAt?.toDate?.()?.toISOString?.() ?? data.receivedAt ?? "",
       fullName: data.fullName ?? "",
       email: data.email ?? "",
       phone: data.phone ?? "",
@@ -56,18 +56,8 @@ async function getPartners(): Promise<Partner[]> {
       amount: data.amount ?? "",
       newsletter: data.newsletter ?? false,
       prayer: data.prayer ?? "",
-    } as Partner;
-  });
-}
-
-function fmt(iso: string) {
-  if (!iso) return "—";
-  return new Date(iso).toLocaleString("en-GB", {
-    day: "numeric",
-    month: "short",
-    year: "numeric",
-    hour: "2-digit",
-    minute: "2-digit",
+      heardFrom: data.heardFrom ?? "",
+    };
   });
 }
 
@@ -79,114 +69,67 @@ export default async function SubmissionsPage() {
     !!process.env.FIREBASE_PRIVATE_KEY;
 
   return (
-    <section className="mx-auto max-w-6xl px-5 pb-24 pt-32 sm:px-8">
-      <Logo height={30} variant="color" alt="Heart.tv" className="mb-8 h-7 w-auto" />
-
-      <div className="flex flex-wrap items-end justify-between gap-4">
-        <div>
-          <p className="eyebrow text-blue">Internal</p>
-          <h1 className="display mt-2 text-4xl text-navy">Partner submissions</h1>
-          <p className="mt-2 text-navy/60">
-            {partners.length} {partners.length === 1 ? "record" : "records"} — newest first
-          </p>
-        </div>
-        <Link
-          href="/partnership/manage"
-          className="rounded-full border border-navy/20 px-5 py-2.5 text-sm font-semibold text-navy transition hover:bg-navy hover:text-white"
-        >
-          ← Studio
-        </Link>
-      </div>
-
-      {!firebaseConfigured && (
-        <div className="mt-8 rounded-xl border border-gold/50 bg-gold/10 px-5 py-4 text-sm leading-relaxed text-navy">
-          <strong className="font-semibold">Firestore not configured.</strong> Add{" "}
-          <code className="rounded bg-mist px-1 py-0.5">FIREBASE_PROJECT_ID</code>,{" "}
-          <code className="rounded bg-mist px-1 py-0.5">FIREBASE_CLIENT_EMAIL</code> and{" "}
-          <code className="rounded bg-mist px-1 py-0.5">FIREBASE_PRIVATE_KEY</code> to your
-          environment variables. Submissions are currently stored locally in{" "}
-          <code className="rounded bg-mist px-1 py-0.5">content/submissions.json</code>.
-        </div>
-      )}
-
-      {firebaseConfigured && partners.length === 0 && (
-        <p className="mt-16 text-center text-navy/50">No submissions yet.</p>
-      )}
-
-      {partners.length > 0 && (
-        <div className="mt-8 overflow-x-auto rounded-2xl border border-navy/10 bg-white shadow-sm">
-          <table className="w-full text-sm">
-            <thead>
-              <tr className="border-b border-navy/10 bg-cloud text-left text-xs font-semibold uppercase tracking-wider text-muted">
-                <th className="px-4 py-3">Ref</th>
-                <th className="px-4 py-3">Date</th>
-                <th className="px-4 py-3">Name</th>
-                <th className="px-4 py-3">Email</th>
-                <th className="px-4 py-3">Phone</th>
-                <th className="px-4 py-3">Country</th>
-                <th className="px-4 py-3">Tier</th>
-                <th className="px-4 py-3">Amount</th>
-                <th className="px-4 py-3">Freq</th>
-                <th className="px-4 py-3">NL</th>
-              </tr>
-            </thead>
-            <tbody className="divide-y divide-navy/5">
-              {partners.map((p) => (
-                <tr key={p.id} className="hover:bg-cloud/60 transition-colors">
-                  <td className="whitespace-nowrap px-4 py-3 font-mono text-xs text-blue">
-                    {p.id}
-                  </td>
-                  <td className="whitespace-nowrap px-4 py-3 text-muted">{fmt(p.receivedAt)}</td>
-                  <td className="px-4 py-3 font-medium text-navy">{p.fullName}</td>
-                  <td className="px-4 py-3 text-muted">
-                    <a href={`mailto:${p.email}`} className="hover:text-blue transition-colors">
-                      {p.email}
-                    </a>
-                  </td>
-                  <td className="whitespace-nowrap px-4 py-3 text-muted">
-                    <a href={`tel:${p.phone}`} className="hover:text-blue transition-colors">
-                      {p.phone}
-                    </a>
-                  </td>
-                  <td className="px-4 py-3 text-muted">{p.country}</td>
-                  <td className="px-4 py-3 capitalize text-navy">{p.tier || "—"}</td>
-                  <td className="whitespace-nowrap px-4 py-3 text-navy">
-                    {p.amount ? `${p.currency} ${p.amount}` : "—"}
-                  </td>
-                  <td className="px-4 py-3 capitalize text-muted">{p.frequency || "—"}</td>
-                  <td className="px-4 py-3 text-center">
-                    {p.newsletter ? (
-                      <span className="text-green-600">✓</span>
-                    ) : (
-                      <span className="text-muted/40">—</span>
-                    )}
-                  </td>
-                </tr>
-              ))}
-            </tbody>
-          </table>
-        </div>
-      )}
-
-      {partners.some((p) => p.prayer) && (
-        <details className="mt-10">
-          <summary className="cursor-pointer text-sm font-semibold text-navy/60 hover:text-navy transition-colors">
-            Prayer requests ({partners.filter((p) => p.prayer).length})
-          </summary>
-          <div className="mt-4 space-y-4">
-            {partners
-              .filter((p) => p.prayer)
-              .map((p) => (
-                <div key={p.id} className="rounded-xl border border-navy/10 bg-white p-5">
-                  <p className="text-xs font-semibold text-muted">
-                    {p.fullName} — {p.id}
-                  </p>
-                  <p className="mt-2 text-sm leading-relaxed text-navy/80">{p.prayer}</p>
-                </div>
-              ))}
+    <div className="min-h-screen bg-cloud">
+      {/* Top bar */}
+      <header className="sticky top-0 z-30 border-b border-navy/10 bg-white/90 backdrop-blur">
+        <div className="mx-auto flex h-16 max-w-7xl items-center justify-between gap-4 px-5 sm:px-8">
+          <div className="flex items-center gap-4">
+            <Logo height={24} variant="color" alt="Heart.tv" className="h-6 w-auto" />
+            <span className="hidden h-5 border-l border-navy/15 sm:block" />
+            <span className="hidden text-sm font-semibold text-navy sm:block">
+              Admin Dashboard
+            </span>
           </div>
-        </details>
-      )}
-    </section>
+          <div className="flex items-center gap-3">
+            <Link
+              href="/partnership/manage"
+              className="text-sm font-medium text-muted transition hover:text-navy"
+            >
+              Studio
+            </Link>
+            <Link
+              href="/partnership"
+              className="text-sm font-medium text-muted transition hover:text-navy"
+            >
+              Live site
+            </Link>
+            <LogoutButton />
+          </div>
+        </div>
+      </header>
+
+      <main className="mx-auto max-w-7xl px-5 py-10 sm:px-8">
+        {!firebaseConfigured && (
+          <div className="mb-8 rounded-xl border border-gold/50 bg-gold/10 px-5 py-4 text-sm leading-relaxed text-navy">
+            <strong className="font-semibold">Firestore not configured.</strong>{" "}
+            Add <code className="rounded bg-white/70 px-1">FIREBASE_PROJECT_ID</code>,{" "}
+            <code className="rounded bg-white/70 px-1">FIREBASE_CLIENT_EMAIL</code> and{" "}
+            <code className="rounded bg-white/70 px-1">FIREBASE_PRIVATE_KEY</code> to
+            your Vercel environment variables to see real submissions here.
+          </div>
+        )}
+        <SubmissionsDashboard partners={partners} />
+      </main>
+    </div>
+  );
+}
+
+// Tiny client component just for the logout button
+function LogoutButton() {
+  return (
+    <form
+      action={async () => {
+        "use server";
+        const { cookies } = await import("next/headers");
+        (await cookies()).set("htv-admin-session", "", { maxAge: 0, path: "/" });
+      }}
+    >
+      <button
+        type="submit"
+        className="rounded-full border border-navy/20 px-4 py-1.5 text-xs font-semibold text-navy transition hover:bg-navy hover:text-white"
+      >
+        Log out
+      </button>
+    </form>
   );
 }
