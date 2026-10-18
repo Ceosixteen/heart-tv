@@ -30,7 +30,7 @@ export default function ProgrammeSchedule() {
       </div>
 
       <div id="programme-day" role="tabpanel" className="grid min-h-64 place-items-center px-6 py-14 text-center">
-        <div>
+        <div key={selected} className="programme-panel-in">
           <span className="mx-auto grid h-14 w-14 place-items-center rounded-2xl bg-mist text-2xl text-blue" aria-hidden>
             ◷
           </span>

@@ -128,3 +128,39 @@ body {
 .orb-a { animation: drift-a 28s ease-in-out infinite; }
 .orb-b { animation: drift-b 34s ease-in-out infinite; }
 .orb-c { animation: drift-c 40s ease-in-out infinite; }
+
+/* Programme-page motion: slow, broadcast-like movement that stays on the
+   compositor and collapses to a static layout for reduced-motion visitors. */
+@keyframes programme-hero-zoom {
+  0% { transform: scale(1.02) translate3d(0, 0, 0); }
+  100% { transform: scale(1.1) translate3d(-1.5%, -1%, 0); }
+}
+@keyframes programme-rise {
+  from { opacity: 0; transform: translate3d(0, 22px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+@keyframes programme-ticker {
+  from { transform: translate3d(0, 0, 0); }
+  to { transform: translate3d(-50%, 0, 0); }
+}
+@keyframes programme-float {
+  0%, 100% { transform: translate3d(0, 0, 0) scale(1.01); }
+  50% { transform: translate3d(0, -10px, 0) scale(1.035); }
+}
+@keyframes programme-panel-in {
+  from { opacity: 0; transform: translate3d(0, 10px, 0); }
+  to { opacity: 1; transform: translate3d(0, 0, 0); }
+}
+.programme-hero-zoom { animation: programme-hero-zoom 18s ease-in-out alternate infinite; }
+.programme-rise { opacity: 0; animation: programme-rise 0.8s ease-out forwards; }
+.programme-rise-2 { animation-delay: 120ms; }
+.programme-rise-3 { animation-delay: 240ms; }
+.programme-rise-4 { animation-delay: 360ms; }
+.programme-ticker { animation: programme-ticker 28s linear infinite; will-change: transform; }
+.programme-float { animation: programme-float 9s ease-in-out infinite; }
+.programme-panel-in { animation: programme-panel-in 0.35s ease-out both; }
+
+@media (prefers-reduced-motion: reduce) {
+  .programme-rise { opacity: 1; transform: none; }
+  .programme-ticker { transform: none; }
+}

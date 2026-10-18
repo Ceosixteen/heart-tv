@@ -80,20 +80,20 @@ export default async function ProgrammesPage() {
           fill
           preload
           sizes="100vw"
-          className="-z-20 object-cover object-[center_24%] opacity-45"
+          className="programme-hero-zoom -z-20 object-cover object-[center_24%] opacity-45"
         />
         <div className="absolute inset-0 -z-10 bg-gradient-to-r from-navy-deep via-navy-deep/90 to-navy-deep/25" />
         <AmbientBackground variant="navy" orbs />
         <div className="mx-auto flex min-h-[72vh] max-w-7xl items-end px-5 pb-20 pt-40 sm:px-8 sm:pb-24">
           <div className="max-w-3xl">
-            <p className="eyebrow text-gold">Heart TV Programmes</p>
-            <h1 className="display mt-6 text-[clamp(2.6rem,6vw,5.2rem)] leading-[0.98]">
+            <p className="programme-rise eyebrow text-gold">Heart TV Programmes</p>
+            <h1 className="programme-rise programme-rise-2 display mt-6 text-[clamp(2.6rem,6vw,5.2rem)] leading-[0.98]">
               The Word for today.<br />Hope for every home.
             </h1>
-            <p className="mt-7 max-w-2xl text-lg leading-relaxed text-white/70 sm:text-xl">
+            <p className="programme-rise programme-rise-3 mt-7 max-w-2xl text-lg leading-relaxed text-white/70 sm:text-xl">
               Discover worship, teaching, prayer, testimonies and stories of love in action from Peter AD Ministries.
             </p>
-            <div className="mt-10 flex flex-wrap gap-4">
+            <div className="programme-rise programme-rise-4 mt-10 flex flex-wrap gap-4">
               <Link href="/live" className="rounded-full bg-gold px-7 py-3.5 font-semibold text-ink transition hover:bg-white">
                 Watch Heart TV Live
               </Link>
@@ -104,6 +104,20 @@ export default async function ProgrammesPage() {
           </div>
         </div>
       </section>
+
+      <div className="overflow-hidden border-y border-white/10 bg-blue py-3 text-white" aria-label="Heart TV programme themes">
+        <div className="programme-ticker flex w-max items-center whitespace-nowrap">
+          {[0, 1].map((copy) => (
+            <div key={copy} aria-hidden={copy === 1} className="flex items-center">
+              {["Live Worship", "Prophetic Ministry", "Faith Teachings", "Prayer", "Testimonies", "Let Love Lead"].map((item) => (
+                <span key={`${copy}-${item}`} className="flex items-center gap-6 px-6 text-xs font-bold uppercase tracking-[0.2em]">
+                  {item}<span className="h-1.5 w-1.5 rounded-full bg-gold" />
+                </span>
+              ))}
+            </div>
+          ))}
+        </div>
+      </div>
 
       <section className="relative overflow-hidden bg-cloud py-20">
         <AmbientBackground variant="light" />
@@ -125,7 +139,7 @@ export default async function ProgrammesPage() {
                   {live.isLive ? "Watch now" : "Open Heart TV Live"} &rarr;
                 </Link>
               </div>
-              <div className="relative min-h-72 lg:min-h-full">
+              <div className="programme-float relative min-h-72 lg:min-h-full">
                 <Image src="/images/prophet-peter-ad-welcome.jpg" alt="Prophet Peter A.D. welcoming viewers" fill sizes="(max-width: 1024px) 100vw, 60vw" className="object-cover" />
                 <div className="absolute inset-0 bg-gradient-to-r from-navy-deep/55 to-transparent lg:from-navy-deep/30" />
               </div>
@@ -146,7 +160,8 @@ export default async function ProgrammesPage() {
           <div className="mt-12 grid gap-6 md:grid-cols-2 xl:grid-cols-3">
             {PROGRAMMES.map((programme) => (
               <Reveal key={programme.title}>
-                <article className="group h-full overflow-hidden rounded-3xl border border-navy/10 bg-cloud transition hover:-translate-y-1 hover:shadow-xl">
+                <article className="group relative h-full overflow-hidden rounded-3xl border border-navy/10 bg-cloud transition duration-500 hover:-translate-y-2 hover:border-azure/40 hover:shadow-xl">
+                  <span className="pointer-events-none absolute -left-2/3 top-0 z-20 h-full w-1/2 -skew-x-12 bg-gradient-to-r from-transparent via-white/30 to-transparent transition-transform duration-1000 group-hover:translate-x-[420%]" aria-hidden />
                   <div className="relative aspect-[16/10] overflow-hidden bg-navy">
                     <Image src={programme.image} alt="" fill sizes="(max-width: 768px) 100vw, (max-width: 1280px) 50vw, 33vw" className="object-cover transition duration-700 group-hover:scale-105" />
                     <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/70 to-transparent" />
