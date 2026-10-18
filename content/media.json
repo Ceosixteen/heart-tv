@@ -1,0 +1,15 @@
+{
+  "videos": [
+    { "id": "xzAQY9qAchY", "title": "Wednesday Service with Prophet Peter A.D.", "category": "Church service" },
+    { "id": "7NXe9I7qPbs", "title": "Deliverance from Stone International Church", "category": "Ministry recording" }
+  ],
+  "photos": [
+    { "src": "/images/children-gathering-field.jpg", "caption": "Gathered together", "alt": "A large gathering of children on a field" },
+    { "src": "/images/children-meal-let-love-lead.jpg", "caption": "Love in action", "alt": "Children sitting together and sharing a meal" },
+    { "src": "/images/volunteers-carrying-food-sacks.jpg", "caption": "Serving our neighbours", "alt": "Volunteers carrying sacks of food" },
+    { "src": "/images/families-seated-with-parcels.jpg", "caption": "Care for families", "alt": "Families seated alongside food parcels" },
+    { "src": "/images/mothers-receiving-supplies.jpg", "caption": "Sharing what we have", "alt": "Women receiving food supplies" },
+    { "src": "/images/woman-carrying-food-home.jpg", "caption": "Taking hope home", "alt": "A woman carrying a sack of food" }
+  ],
+  "sermons": []
+}

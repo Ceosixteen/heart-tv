@@ -3,6 +3,7 @@ import Link from "next/link";
 import { getLiveStatus, type LiveStatus } from "@/lib/live";
 import AmbientBackground from "@/components/AmbientBackground";
 import { SITE } from "@/lib/site";
+import MediaLibrary from "@/components/MediaLibrary";
 
 export const metadata: Metadata = {
   title: "Live",
@@ -14,7 +15,7 @@ export const dynamic = "force-dynamic";
 
 export default async function LivePage() {
   const status = await getLiveStatus();
-  return status.isLive ? <OnAir status={status} /> : <OffAir />;
+  return status.isLive ? <><OnAir status={status} /><MediaLibrary /></> : <OffAir />;
 }
 
 /* ─── ON AIR ─────────────────────────────────────────────────── */
@@ -173,6 +174,8 @@ function OffAir() {
           </div>
         </div>
       </section>
+
+      <MediaLibrary />
 
       {/* Notify section */}
       <section className="relative overflow-hidden bg-cloud py-20">
