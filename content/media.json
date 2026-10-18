@@ -11,5 +11,30 @@
     { "src": "/images/mothers-receiving-supplies.jpg", "caption": "Sharing what we have", "alt": "Women receiving food supplies" },
     { "src": "/images/woman-carrying-food-home.jpg", "caption": "Taking hope home", "alt": "A woman carrying a sack of food" }
   ],
-  "sermons": []
+  "sermons": [
+    {
+      "title": "Let Scripture guide daily life",
+      "scripture": "2 Timothy 3:16 · Psalm 119:105 · James 1:23–24",
+      "summary": "The ministry’s Statement of Faith describes Scripture as nourishment, guidance and a mirror for believers. Its teaching connects belief with putting God’s Word into practice.",
+      "takeaways": ["Read Scripture for direction and reflection.", "Express faith through action."],
+      "sourceUrl": "https://peteradministries.org/statement-of-faith",
+      "sourceLabel": "Read our Statement of Faith"
+    },
+    {
+      "title": "A life rooted in faith",
+      "scripture": "Galatians 2:20 · Hebrews 11:6",
+      "summary": "The Statement of Faith places Christ at the centre of the believer’s life. It points to the people of faith in Scripture as examples for believers today.",
+      "takeaways": ["Look to Christ as the foundation of faith.", "Learn from the lives of faith recorded in Scripture."],
+      "sourceUrl": "https://peteradministries.org/statement-of-faith",
+      "sourceLabel": "Read our Statement of Faith"
+    },
+    {
+      "title": "Generosity that cares for others",
+      "scripture": "Acts 20:35 · Proverbs 22:9 · 1 John 3:17–18",
+      "summary": "The Giving Ministry teaches that generosity is part of the church’s responsibility to people in need. Its published mission includes care for orphans, widows, disadvantaged children and university students.",
+      "takeaways": ["Notice the needs of others.", "Give freely from what you have received.", "Let love take practical form."],
+      "sourceUrl": "https://peteradministries.org/give",
+      "sourceLabel": "Explore our Giving Ministry"
+    }
+  ]
 }

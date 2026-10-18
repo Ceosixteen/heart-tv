@@ -4,7 +4,7 @@ import Image from "next/image";
 import { useRef, useState } from "react";
 import media from "@/content/media.json";
 
-type Sermon = { title: string; scripture: string; summary: string; takeaways: string[]; videoId: string };
+type Sermon = { title: string; scripture: string; summary: string; takeaways: string[]; sourceUrl: string; sourceLabel: string };
 const sermons: Sermon[] = media.sermons;
 const channel = "https://www.youtube.com/@peteradministries";
 const section = "mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24";
@@ -83,16 +83,18 @@ export default function MediaLibrary() {
           <div>
             <p className="eyebrow text-blue">Carry the Word with you</p>
             <h2 id="sermons-heading" className="display mt-4 text-3xl text-navy sm:text-5xl">Sermon summaries.</h2>
-            <p className="mt-5 leading-relaxed text-muted">A place to revisit the Scripture, key lessons and practical encouragement from each message.</p>
+            <p className="mt-5 leading-relaxed text-muted">Begin with teaching notes drawn from our ministry’s published Statement of Faith and Giving Ministry. These are summaries of written teachings, not transcripts of recorded sermons.</p>
+            <a href="https://peteradministries.org/videos" target="_blank" rel="noopener noreferrer" className="mt-5 inline-block font-semibold text-blue hover:underline">Explore the ministry’s video library ↗</a>
           </div>
           <div className="space-y-4">
             {sermons.length ? sermons.map((sermon) => (
-              <details key={sermon.videoId} className="rounded-2xl border border-navy/10 bg-white p-7">
+              <details key={sermon.title} className="rounded-2xl border border-navy/10 bg-white p-7">
                 <summary className="cursor-pointer font-display text-2xl font-semibold text-navy">{sermon.title}</summary>
+                <p className="mt-4 text-xs font-semibold uppercase tracking-wider text-muted">Teaching notes · Published ministry teaching</p>
                 <p className="mt-4 text-sm font-semibold text-blue">{sermon.scripture}</p>
                 <p className="mt-4 leading-relaxed text-muted">{sermon.summary}</p>
                 <ul className="mt-4 list-disc space-y-2 pl-5 text-navy">{sermon.takeaways.map((point) => <li key={point}>{point}</li>)}</ul>
-                <a href={`https://www.youtube.com/watch?v=${sermon.videoId}`} target="_blank" rel="noopener noreferrer" className="mt-5 inline-block font-semibold text-blue">Watch the full message ↗</a>
+                <a href={sermon.sourceUrl} target="_blank" rel="noopener noreferrer" className="mt-5 inline-block font-semibold text-blue">{sermon.sourceLabel} ↗</a>
               </details>
             )) : (
               <div className="rounded-3xl border border-navy/10 bg-white p-8 sm:p-10">
