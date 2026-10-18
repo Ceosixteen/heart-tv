@@ -164,6 +164,45 @@ function Prophet() {
 
           {/* Timeline side */}
           <Reveal>
+            <figure className="group relative mb-12 aspect-[4/5] overflow-hidden rounded-3xl border border-white/10 bg-navy shadow-2xl">
+              <Image
+                src="/images/prophet-peter-ad-preaching.jpg"
+                alt="Prophet Peter A.D. holding a Bible while ministering"
+                fill
+                priority
+                sizes="(max-width: 1024px) 100vw, 46vw"
+                className="object-cover object-top transition duration-700 group-hover:scale-[1.025]"
+              />
+              <div className="absolute inset-0 bg-gradient-to-t from-navy-deep via-transparent to-transparent" />
+              <figcaption className="absolute inset-x-0 bottom-0 p-7 sm:p-9">
+                <p className="eyebrow text-gold">Prophet Peter A.D.</p>
+                <p className="mt-2 max-w-sm text-sm leading-relaxed text-white/75">
+                  Founder and General Overseer of Stone International Church.
+                </p>
+              </figcaption>
+            </figure>
+
+            <div className="mb-12 grid grid-cols-2 gap-4">
+              <div className="relative aspect-square overflow-hidden rounded-2xl border border-white/10">
+                <Image
+                  src="/images/prophet-peter-ad-outreach.jpg"
+                  alt="Prophet Peter A.D. ministering during a children’s outreach"
+                  fill
+                  sizes="(max-width: 1024px) 50vw, 22vw"
+                  className="object-cover"
+                />
+              </div>
+              <div className="relative aspect-square overflow-hidden rounded-2xl border border-white/10">
+                <Image
+                  src="/images/prophet-peter-ad-teaching.jpg"
+                  alt="Prophet Peter A.D. sharing a teaching"
+                  fill
+                  sizes="(max-width: 1024px) 50vw, 22vw"
+                  className="object-cover"
+                />
+              </div>
+            </div>
+
             <p className="eyebrow mb-8 text-white/50">Timeline</p>
             <ol className="relative space-y-0 border-l border-white/15 pl-8">
               {timeline.map((item) => (
