@@ -223,6 +223,85 @@ export default async function ProgrammesPage() {
         </div>
       </section>
 
+      <section className="relative overflow-hidden bg-cloud py-24">
+        <AmbientBackground variant="light" />
+        <div className="mx-auto max-w-7xl px-5 sm:px-8">
+          <Reveal>
+            <div className="grid overflow-hidden rounded-[2rem] border border-navy/10 bg-white shadow-[0_30px_80px_-40px_rgb(18_16_94/0.35)] lg:grid-cols-[1.05fr_0.95fr]">
+              <div className="relative min-h-[420px] overflow-hidden bg-navy-deep lg:min-h-full">
+                <Image
+                  src="/images/prophet-peter-ad-preaching.jpg"
+                  alt="Prophet Peter A.D. ministering at Stone International Church"
+                  fill
+                  sizes="(max-width: 1024px) 100vw, 52vw"
+                  className="object-cover object-top transition duration-1000 hover:scale-[1.03]"
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-navy-deep/90 via-navy-deep/10 to-transparent" />
+                <div className="absolute inset-x-0 bottom-0 p-8 text-white sm:p-10">
+                  <p className="eyebrow text-gold">You are welcome here</p>
+                  <p className="mt-3 max-w-md text-lg leading-relaxed text-white/80">
+                    Come expecting worship, the Word of God and a family ready to receive you.
+                  </p>
+                </div>
+              </div>
+
+              <div className="p-8 sm:p-12 lg:p-14">
+                <p className="eyebrow text-blue">Plan your visit</p>
+                <h2 className="display mt-5 text-3xl text-navy sm:text-5xl">Visit Stone International Church.</h2>
+                <p className="mt-5 leading-relaxed text-muted">
+                  Whether you are travelling from within South Sudan or joining us from abroad, our team can help you prepare for your visit to the ministry headquarters.
+                </p>
+
+                <div className="mt-9 space-y-5 border-y border-navy/10 py-8">
+                  <div className="grid gap-1 sm:grid-cols-[7rem_1fr]">
+                    <p className="text-xs font-bold uppercase tracking-widest text-blue">Location</p>
+                    <p className="font-semibold leading-relaxed text-navy">Stone International Church, Gudele 2, Block 4, Juba, South Sudan</p>
+                  </div>
+                  <div className="grid gap-1 sm:grid-cols-[7rem_1fr]">
+                    <p className="text-xs font-bold uppercase tracking-widest text-blue">Call</p>
+                    <div className="flex flex-wrap gap-x-4 gap-y-1 font-semibold text-navy">
+                      <a href="tel:+211923764777" className="hover:text-blue">+211 923 764 777</a>
+                      <a href="tel:+211916222122" className="hover:text-blue">+211 916 222 122</a>
+                    </div>
+                  </div>
+                  <div className="grid gap-1 sm:grid-cols-[7rem_1fr]">
+                    <p className="text-xs font-bold uppercase tracking-widest text-blue">Email</p>
+                    <a href="mailto:info@peteradministries.org" className="font-semibold text-navy hover:text-blue">info@peteradministries.org</a>
+                  </div>
+                </div>
+
+                <div className="mt-8 flex flex-wrap gap-3">
+                  <a
+                    href="https://docs.google.com/forms/d/e/1FAIpQLSfOCQwFSfCJ49mUqm0As8eOUEvzqp47hkRpHwz7Lxcg7XPzwQ/viewform?usp=header"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-full bg-blue px-6 py-3.5 font-semibold text-white transition hover:bg-navy"
+                  >
+                    Complete visit form &rarr;
+                  </a>
+                  <a
+                    href="https://wa.me/211916222122?text=Hello%21%20I%20would%20love%20to%20plan%20a%20visit%20to%20Stone%20International%20Church."
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-full border border-navy/15 px-6 py-3.5 font-semibold text-navy transition hover:border-azure hover:bg-mist"
+                  >
+                    Ask on WhatsApp
+                  </a>
+                  <a
+                    href="https://www.google.com/maps/search/?api=1&query=Stone+International+Church+Gudele+2+Block+4+Juba+South+Sudan"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="rounded-full px-4 py-3.5 font-semibold text-blue hover:underline"
+                  >
+                    Get directions ↗
+                  </a>
+                </div>
+              </div>
+            </div>
+          </Reveal>
+        </div>
+      </section>
+
       <section className="relative overflow-hidden bg-navy-deep py-20 text-white">
         <AmbientBackground variant="navy" />
         <div className="relative mx-auto max-w-3xl px-5 text-center sm:px-8">
