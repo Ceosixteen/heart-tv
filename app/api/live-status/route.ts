@@ -7,7 +7,7 @@ export async function GET() {
   const data = await getLiveStatus();
   return NextResponse.json(data, {
     headers: {
-      "Cache-Control": "public, s-maxage=300, stale-while-revalidate=60",
+      "Cache-Control": "public, s-maxage=15, stale-while-revalidate=30",
     },
   });
 }

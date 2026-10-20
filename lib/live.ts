@@ -18,7 +18,23 @@ const NOT_LIVE: LiveStatus = {
 };
 
 let _cache: { data: LiveStatus; expires: number } | null = null;
-const CACHE_MS = 5 * 60 * 1000;
+const CACHE_MS = 15 * 1000;
+
+async function checkStudio(): Promise<LiveStatus | null> {
+  const endpoint = process.env.HEART_TV_STUDIO_LIVE_URL ?? "https://heart-tv-studio.vercel.app/api/public/live";
+  const res = await fetch(endpoint, { cache: "no-store", signal: AbortSignal.timeout(5000) });
+  if (!res.ok) return null;
+  const data = await res.json();
+  if (typeof data?.isLive !== "boolean") return null;
+  return {
+    isLive: data.isLive,
+    platform: data.platform === "youtube" || data.platform === "facebook" ? data.platform : null,
+    videoId: typeof data.videoId === "string" ? data.videoId : null,
+    title: typeof data.title === "string" ? data.title : null,
+    thumbnailUrl: typeof data.thumbnailUrl === "string" ? data.thumbnailUrl : null,
+    permalink: typeof data.permalink === "string" ? data.permalink : null,
+  };
+}
 
 async function checkYouTube(): Promise<LiveStatus | null> {
   const apiKey = process.env.YOUTUBE_API_KEY;
@@ -79,6 +95,12 @@ export async function getLiveStatus(): Promise<LiveStatus> {
 
   let data: LiveStatus;
   try {
+    const studio = await checkStudio();
+    if (studio) {
+      data = studio;
+      _cache = { data, expires: Date.now() + CACHE_MS };
+      return data;
+    }
     const [yt, fb] = await Promise.allSettled([checkYouTube(), checkFacebook()]);
     data =
       (yt.status === "fulfilled" && yt.value) ||

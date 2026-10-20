@@ -16,7 +16,7 @@ export function LiveProvider({ children }: { children: React.ReactNode }) {
       } catch {}
     }
     poll();
-    const id = setInterval(poll, 60_000);
+    const id = setInterval(poll, 30_000);
     return () => clearInterval(id);
   }, []);
 
