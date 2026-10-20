@@ -36,14 +36,14 @@ export default function MediaLibrary() {
             <h2 id="videos-heading" className="display mt-4 text-3xl text-navy sm:text-5xl">A message to return to.</h2>
             <p className="mt-4 max-w-xl leading-relaxed text-muted">Revisit services and moments from Peter AD Ministries. Make room for hope, wherever you are.</p>
           </div>
-          <a href={`${channel}/videos`} target="_blank" rel="noopener noreferrer" className="rounded-full border border-navy/20 px-6 py-3 text-sm font-semibold text-navy hover:bg-white">All videos on YouTube ↗</a>
+          <span className="rounded-full border border-navy/20 px-6 py-3 text-sm font-semibold text-navy">Heart TV video library</span>
         </div>
         <div className="grid gap-7 md:grid-cols-2">
           {media.videos.map((video) => (
             <article key={video.id} className="overflow-hidden rounded-3xl border border-navy/10 bg-white">
               <div className="relative aspect-video bg-navy-deep">
                 {playing === video.id ? (
-                  <iframe className="absolute inset-0 h-full w-full" src={`https://www.youtube-nocookie.com/embed/${video.id}?autoplay=1&rel=0`} title={video.title} allow="autoplay; encrypted-media; picture-in-picture; fullscreen" allowFullScreen />
+                  <><iframe tabIndex={-1} className="pointer-events-none absolute inset-0 h-full w-full" src={`https://www.youtube-nocookie.com/embed/${video.id}?autoplay=1&mute=1&controls=0&disablekb=1&fs=0&rel=0&modestbranding=1`} title={video.title} allow="autoplay; encrypted-media" /><span className="absolute inset-0 z-10" aria-hidden /></>
                 ) : (
                   <button type="button" onClick={() => setPlaying(video.id)} aria-label={`Play ${video.title}`} className="group absolute inset-0 flex h-full w-full items-center justify-center overflow-hidden">
                     <Image src={`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`} alt="" fill unoptimized sizes="(max-width: 768px) 100vw, 50vw" className="object-cover opacity-75 transition duration-500 group-hover:scale-105 group-hover:opacity-90" />
@@ -54,7 +54,7 @@ export default function MediaLibrary() {
               <div className="p-7">
                 <p className="eyebrow text-blue">{video.category}</p>
                 <h3 className="mt-3 font-display text-2xl font-semibold text-navy">{video.title}</h3>
-                <a className="mt-5 inline-block text-sm font-semibold text-blue underline-offset-4 hover:underline" href={`https://www.youtube.com/watch?v=${video.id}`} target="_blank" rel="noopener noreferrer">Watch on YouTube ↗</a>
+                <p className="mt-5 text-sm font-semibold text-blue">Playing securely on Heart TV</p>
               </div>
             </article>
           ))}
