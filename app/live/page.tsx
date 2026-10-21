@@ -24,15 +24,11 @@ function OnAir({ status }: { status: LiveStatus }) {
   const isYT = status.platform === "youtube";
 
   const embedSrc = isYT
-    ? `https://www.youtube.com/embed/${status.videoId}?autoplay=1&rel=0&modestbranding=1`
+    ? `https://www.youtube-nocookie.com/embed/${status.videoId}?autoplay=1&mute=1&controls=0&disablekb=1&fs=0&rel=0&playsinline=1&iv_load_policy=3&modestbranding=1`
     : status.permalink
     ? `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(
         `https://www.facebook.com${status.permalink}`
       )}&width=1280&autoplay=true&show_text=false`
-    : null;
-
-  const chatSrc = isYT
-    ? `https://www.youtube.com/live_chat?v=${status.videoId}&embed_domain=hearttv.org`
     : null;
 
   return (
@@ -49,9 +45,7 @@ function OnAir({ status }: { status: LiveStatus }) {
           <span className="text-[11px] font-semibold uppercase tracking-[0.16em] text-red-400">
             Live Now
           </span>
-          <span className="text-sm text-white/50">
-            on {status.platform === "youtube" ? "YouTube" : "Facebook"}
-          </span>
+          <span className="text-sm text-white/50">Heart TV broadcast</span>
         </div>
 
         {status.title && (
@@ -60,32 +54,21 @@ function OnAir({ status }: { status: LiveStatus }) {
           </h1>
         )}
 
-        {/* Player + optional chat */}
+        {/* Locked player */}
         {embedSrc ? (
-          <div className="flex flex-col gap-4 lg:flex-row lg:items-start">
-            {/* Main player — 16:9 */}
-            <div className="w-full overflow-hidden rounded-2xl shadow-[0_24px_80px_-24px_rgb(0_0_0/0.7)] lg:flex-1">
+          <div>
+            <div className="w-full overflow-hidden rounded-2xl shadow-[0_24px_80px_-24px_rgb(0_0_0/0.7)]">
               <div className="relative pb-[56.25%]">
                 <iframe
                   src={embedSrc}
-                  className="absolute inset-0 h-full w-full border-0"
-                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-                  allowFullScreen
+                  tabIndex={-1}
+                  className="pointer-events-none absolute inset-0 h-full w-full border-0"
+                  allow="autoplay; encrypted-media"
                   title={status.title ?? "Heart TV Live"}
                 />
+                <span className="absolute inset-0 z-10 cursor-default" aria-hidden />
               </div>
             </div>
-
-            {/* YouTube live chat sidebar */}
-            {chatSrc && (
-              <div className="h-[480px] w-full overflow-hidden rounded-2xl border border-white/10 bg-white/5 lg:h-auto lg:w-[340px] lg:self-stretch">
-                <iframe
-                  src={chatSrc}
-                  className="h-full w-full border-0"
-                  title="Live chat"
-                />
-              </div>
-            )}
           </div>
         ) : (
           <div className="flex items-center justify-center rounded-2xl border border-white/10 bg-white/5 py-24">
