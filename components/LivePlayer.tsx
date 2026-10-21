@@ -4,8 +4,10 @@ import { useEffect, useRef, useState } from "react";
 
 type Props = { src: string; title: string; isYouTube: boolean };
 
-function Icon({ name }: { name: "share" | "volume" | "sun" | "expand" | "reduce" }) {
+function Icon({ name }: { name: "play" | "pause" | "share" | "volume" | "sun" | "expand" | "reduce" }) {
   const paths = {
+    play: <path d="m8 5 11 7-11 7V5Z"/>,
+    pause: <><path d="M9 5v14M15 5v14"/></>,
     share: <><circle cx="18" cy="5" r="3"/><circle cx="6" cy="12" r="3"/><circle cx="18" cy="19" r="3"/><path d="m8.6 10.5 6.8-4M8.6 13.5l6.8 4"/></>,
     volume: <><path d="M11 5 6 9H2v6h4l5 4V5Z"/><path d="M15.5 8.5a5 5 0 0 1 0 7M18 6a8.5 8.5 0 0 1 0 12"/></>,
     sun: <><circle cx="12" cy="12" r="4"/><path d="M12 2v2M12 20v2M4.9 4.9l1.4 1.4M17.7 17.7l1.4 1.4M2 12h2M20 12h2M4.9 19.1l1.4-1.4M17.7 6.3l1.4-1.4"/></>,
@@ -22,6 +24,7 @@ export default function LivePlayer({ src, title, isYouTube }: Props) {
   const [brightness, setBrightness] = useState(100);
   const [fullscreen, setFullscreen] = useState(false);
   const [shared, setShared] = useState(false);
+  const [playing, setPlaying] = useState(true);
 
   useEffect(() => {
     const update = () => setFullscreen(document.fullscreenElement === shell.current);
@@ -38,6 +41,12 @@ export default function LivePlayer({ src, title, isYouTube }: Props) {
     setVolume(value);
     youtubeCommand(value === 0 ? "mute" : "unMute");
     if (value > 0) youtubeCommand("setVolume", [value]);
+  }
+
+  function togglePlayback() {
+    const next = !playing;
+    youtubeCommand(next ? "playVideo" : "pauseVideo");
+    setPlaying(next);
   }
 
   async function share() {
@@ -60,6 +69,7 @@ export default function LivePlayer({ src, title, isYouTube }: Props) {
       <span className="absolute inset-0 z-10 cursor-default" aria-hidden />
     </div>
     <div className="absolute inset-x-0 bottom-0 z-20 flex flex-wrap items-center gap-3 bg-gradient-to-t from-black/95 via-black/75 to-transparent px-4 pb-4 pt-12 text-white sm:px-6">
+      {isYouTube ? <button type="button" onClick={togglePlayback} aria-pressed={!playing} className="inline-flex h-10 items-center gap-2 rounded-full bg-gold px-4 text-sm font-semibold text-ink transition hover:bg-white" aria-label={playing ? "Pause live broadcast" : "Resume live broadcast"}><Icon name={playing ? "pause" : "play"} /><span>{playing ? "Pause" : "Resume"}</span></button> : null}
       <button type="button" onClick={share} className="inline-flex h-10 items-center gap-2 rounded-full bg-white/15 px-4 text-sm font-semibold backdrop-blur transition hover:bg-white/25" aria-label="Share live broadcast"><Icon name="share" /> <span className="hidden sm:inline">{shared ? "Link copied" : "Share live"}</span></button>
       <label className="flex h-10 items-center gap-2 rounded-full bg-white/15 px-3 backdrop-blur" aria-label="Volume"><Icon name="volume" /><input type="range" min="0" max="100" value={volume} onChange={(event) => changeVolume(Number(event.target.value))} className="w-20 accent-gold sm:w-24" /></label>
       <label className="flex h-10 items-center gap-2 rounded-full bg-white/15 px-3 backdrop-blur" aria-label="Brightness"><Icon name="sun" /><input type="range" min="45" max="140" value={brightness} onChange={(event) => setBrightness(Number(event.target.value))} className="w-20 accent-gold sm:w-24" /></label>
