@@ -1,19 +1,36 @@
 "use client";
 
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import media from "@/content/media.json";
 
 type Sermon = { title: string; scripture: string; summary: string; takeaways: string[]; sourceUrl: string; sourceLabel: string };
+type StudioVideo = { id: string; sourceType: "upload" | "youtube" | "vimeo" | "facebook" | "direct"; title: string; provider: string; channel?: string; thumbnail?: string; playbackRef: string };
 const sermons: Sermon[] = media.sermons;
 const channel = "https://www.youtube.com/@peteradministries";
 const section = "mx-auto max-w-7xl px-5 py-20 sm:px-8 sm:py-24";
 
 export default function MediaLibrary() {
   const [playing, setPlaying] = useState<string | null>(null);
+  const [studioVideos, setStudioVideos] = useState<StudioVideo[]>([]);
   const [photoIndex, setPhotoIndex] = useState(0);
   const dialog = useRef<HTMLDialogElement>(null);
   const photo = media.photos[photoIndex];
+  const videos: StudioVideo[] = studioVideos.length ? studioVideos : media.videos.map((video) => ({ id: video.id, sourceType: "youtube", title: video.title, provider: "Heart TV", playbackRef: video.id, thumbnail: `https://i.ytimg.com/vi/${video.id}/hqdefault.jpg` }));
+
+  useEffect(() => {
+    let active = true;
+    fetch("https://heart-tv-studio.vercel.app/api/public/media").then((response) => response.json()).then((result) => { if (active && Array.isArray(result.videos)) setStudioVideos(result.videos); }).catch(() => undefined);
+    return () => { active = false; };
+  }, []);
+
+  function player(video: StudioVideo) {
+    const locked = "pointer-events-none absolute inset-0 h-full w-full";
+    if (video.sourceType === "youtube") return <iframe tabIndex={-1} className={locked} src={`https://www.youtube-nocookie.com/embed/${video.playbackRef}?autoplay=1&mute=1&controls=0&disablekb=1&fs=0&rel=0&modestbranding=1`} title={video.title} allow="autoplay; encrypted-media" />;
+    if (video.sourceType === "vimeo") return <iframe tabIndex={-1} className={locked} src={`https://player.vimeo.com/video/${video.playbackRef}?autoplay=1&muted=1&controls=0&title=0&byline=0&portrait=0`} title={video.title} allow="autoplay; fullscreen" />;
+    if (video.sourceType === "facebook") return <iframe tabIndex={-1} className={locked} src={`https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(video.playbackRef)}&autoplay=1&show_text=0`} title={video.title} allow="autoplay; encrypted-media" />;
+    return <video src={video.playbackRef} autoPlay muted playsInline controls={false} disablePictureInPicture controlsList="nodownload nofullscreen noremoteplayback" className={`${locked} object-contain`} />;
+  }
 
   function movePhoto(direction: number) {
     setPhotoIndex((current) => (current + direction + media.photos.length) % media.photos.length);
@@ -39,20 +56,20 @@ export default function MediaLibrary() {
           <span className="rounded-full border border-navy/20 px-6 py-3 text-sm font-semibold text-navy">Heart TV video library</span>
         </div>
         <div className="grid gap-7 md:grid-cols-2">
-          {media.videos.map((video) => (
+          {videos.map((video) => (
             <article key={video.id} className="overflow-hidden rounded-3xl border border-navy/10 bg-white">
               <div className="relative aspect-video bg-navy-deep">
                 {playing === video.id ? (
-                  <><iframe tabIndex={-1} className="pointer-events-none absolute inset-0 h-full w-full" src={`https://www.youtube-nocookie.com/embed/${video.id}?autoplay=1&mute=1&controls=0&disablekb=1&fs=0&rel=0&modestbranding=1`} title={video.title} allow="autoplay; encrypted-media" /><span className="absolute inset-0 z-10" aria-hidden /></>
+                  <>{player(video)}<span className="absolute inset-0 z-10" aria-hidden /></>
                 ) : (
                   <button type="button" onClick={() => setPlaying(video.id)} aria-label={`Play ${video.title}`} className="group absolute inset-0 flex h-full w-full items-center justify-center overflow-hidden">
-                    <Image src={`https://i.ytimg.com/vi/${video.id}/hqdefault.jpg`} alt="" fill unoptimized sizes="(max-width: 768px) 100vw, 50vw" className="object-cover opacity-75 transition duration-500 group-hover:scale-105 group-hover:opacity-90" />
+                    {video.thumbnail ? <Image src={video.thumbnail} alt="" fill unoptimized sizes="(max-width: 768px) 100vw, 50vw" className="object-cover opacity-75 transition duration-500 group-hover:scale-105 group-hover:opacity-90" /> : <span className="absolute inset-0 bg-[radial-gradient(circle_at_center,#1057d1,#12105e)]" />}
                     <span className="relative grid h-16 w-16 place-items-center rounded-full bg-white text-2xl text-blue shadow-xl transition group-hover:scale-110" aria-hidden>▶</span>
                   </button>
                 )}
               </div>
               <div className="p-7">
-                <p className="eyebrow text-blue">{video.category}</p>
+                <p className="eyebrow text-blue">{video.provider}</p>
                 <h3 className="mt-3 font-display text-2xl font-semibold text-navy">{video.title}</h3>
                 <p className="mt-5 text-sm font-semibold text-blue">Playing securely on Heart TV</p>
               </div>
