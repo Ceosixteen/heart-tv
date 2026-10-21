@@ -4,6 +4,7 @@ import { getLiveStatus, type LiveStatus } from "@/lib/live";
 import AmbientBackground from "@/components/AmbientBackground";
 import { SITE } from "@/lib/site";
 import MediaLibrary from "@/components/MediaLibrary";
+import LivePlayer from "@/components/LivePlayer";
 
 export const metadata: Metadata = {
   title: "Live",
@@ -24,7 +25,7 @@ function OnAir({ status }: { status: LiveStatus }) {
   const isYT = status.platform === "youtube";
 
   const embedSrc = isYT
-    ? `https://www.youtube-nocookie.com/embed/${status.videoId}?autoplay=1&mute=1&controls=0&disablekb=1&fs=0&rel=0&playsinline=1&iv_load_policy=3&modestbranding=1`
+    ? `https://www.youtube-nocookie.com/embed/${status.videoId}?autoplay=1&mute=1&controls=0&disablekb=1&fs=0&rel=0&playsinline=1&iv_load_policy=3&modestbranding=1&enablejsapi=1`
     : status.permalink
     ? `https://www.facebook.com/plugins/video.php?href=${encodeURIComponent(
         `https://www.facebook.com${status.permalink}`
@@ -57,18 +58,7 @@ function OnAir({ status }: { status: LiveStatus }) {
         {/* Locked player */}
         {embedSrc ? (
           <div>
-            <div className="w-full overflow-hidden rounded-2xl shadow-[0_24px_80px_-24px_rgb(0_0_0/0.7)]">
-              <div className="relative pb-[56.25%]">
-                <iframe
-                  src={embedSrc}
-                  tabIndex={-1}
-                  className="pointer-events-none absolute inset-0 h-full w-full border-0"
-                  allow="autoplay; encrypted-media"
-                  title={status.title ?? "Heart TV Live"}
-                />
-                <span className="absolute inset-0 z-10 cursor-default" aria-hidden />
-              </div>
-            </div>
+            <LivePlayer src={embedSrc} title={status.title ?? "Heart TV Live"} isYouTube={isYT} />
           </div>
         ) : (
           <div className="flex items-center justify-center rounded-2xl border border-white/10 bg-white/5 py-24">
